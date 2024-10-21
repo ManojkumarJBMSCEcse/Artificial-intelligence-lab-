@@ -1,0 +1,30 @@
+class VacuumCleanerAgent:
+    function __init__():
+        places = {'A': True, 'B': True}
+        current_location = 'A'
+
+    function clean():
+        print "Cleaning current_location"
+        places[current_location] = False
+
+    function move():
+        if current_location is 'A':
+            current_location = 'B'
+        else:
+            current_location = 'A'
+        print "Moving to current_location"
+
+    function is_environment_clean():
+        return places['A'] == False AND places['B'] == False
+
+    function run():
+        while is_environment_clean() is False:
+            if places[current_location] is True:
+                clean()
+            else:
+                move()
+
+        print "Both places are clean!"
+
+agent = new VacuumCleanerAgent()
+agent.run()
