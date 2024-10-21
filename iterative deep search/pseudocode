@@ -1,0 +1,44 @@
+class Node:
+    function __init__(state, parent=None):
+        self.state = state
+        self.parent = parent
+
+function depth_limited_dfs(node, goal, depth):
+    if depth == 0 and node.state == goal:
+        return node
+    else if depth > 0:
+        for each child in get_children(node):
+            result = depth_limited_dfs(child, goal, depth - 1)
+            if result is not None:
+                return result
+    return None
+
+function iterative_deepening_dfs(start, goal):
+    depth = 0
+    while True:
+        result = depth_limited_dfs(start, goal, depth)
+        if result is not None:
+            return result
+        depth += 1
+
+function get_children(node):
+    return [Node(node.state * 2, node), Node(node.state * 2 + 1, node)]
+
+function print_solution(solution):
+    path = []
+    while solution is not None:
+        path.append(solution.state)
+        solution = solution.parent
+    print path in reverse order joined by " -> "
+
+if __name__ == "__main__":
+    start_node = Node(1)
+    goal_state = 10
+
+    solution = iterative_deepening_dfs(start_node, goal_state)
+
+    if solution:
+        print "Goal found!"
+        print_solution(solution)
+    else:
+        print "Goal not found."
