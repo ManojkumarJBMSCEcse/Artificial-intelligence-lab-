@@ -1,0 +1,66 @@
+class PuzzleState:
+    function __init__(state, moves=0, previous=None):
+        self.state = state
+        self.moves = moves
+        self.previous = previous
+
+    function __str__():
+        return formatted 3x3 grid of the state
+
+function get_neighbors(state):
+    neighbors = []
+    index_blank = position of blank tile (0) in the state
+    (x, y) = (index_blank / 3, index_blank % 3)
+
+    moves = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+
+    for each (dx, dy) in moves:
+        new_x = x + dx
+        new_y = y + dy
+        if new_x and new_y are within bounds (0 to 2):
+            swap blank tile with the tile at (new_x, new_y)
+            add new state to neighbors list
+
+    return neighbors
+
+function bfs(start, goal):
+    queue = empty deque
+    visited = empty set
+
+    start_state = new PuzzleState(start)
+    append start_state to queue
+    add start to visited set
+
+    while queue is not empty:
+        current_state = remove first element from queue
+
+        if current_state.state == goal:
+            return current_state
+
+        for each neighbor in get_neighbors(current_state.state):
+            if neighbor is not in visited:
+                mark neighbor as visited
+                add new PuzzleState(neighbor, moves+1, current_state) to queue
+
+    return None
+
+function print_solution(solution):
+    path = empty list
+
+    while solution is not None:
+        append solution to path
+        solution = solution.previous
+
+    for each state in reversed(path):
+        print state
+
+start_state = (1, 2, 3, 4, 0, 5, 6, 7, 8)
+goal_state = (1, 2, 3, 4, 5, 6, 7, 8, 0)
+
+solution = bfs(start_state, goal_state)
+
+if solution:
+    print "Solution found in", solution.moves, "moves"
+    print_solution(solution)
+else:
+    print "No solution found"
